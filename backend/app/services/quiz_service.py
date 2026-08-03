@@ -6,10 +6,11 @@ from app.repositories.quiz_repository import QuizRepository
 from fastapi import HTTPException
 
 from app.repositories.question_repository import QuestionRepository
-
+from app.schemas.answer_schema import AnswerRequest
+from app.config.constants import POINTS_PER_QUESTION
 
 class QuizService:
-
+    
     def __init__(self):
         self.repository = QuizRepository()
         self.question_repository = QuestionRepository()
@@ -30,7 +31,11 @@ class QuizService:
         }
         return self.repository.create_session(session)
 
-    def submit_answer(self, session_id, answer_request,):
+    def submit_answer(
+        self,
+        session_id: str,
+        answer_request: AnswerRequest,
+    ):
         session = self.repository.get_session(session_id)
 
         if session is None:
@@ -51,14 +56,10 @@ class QuizService:
 
         is_correct = (answer_request.selectedOption == correct_option)
 
-        session = self.repository.get_session(session_id)
-
         score = session["score"]
 
         if is_correct:
-            score += 10
-
-        self.repository.update_score(session_id,score)
+            score += POINTS_PER_QUESTION
 
         answer = {
             "questionId": answer_request.questionId,
@@ -67,8 +68,20 @@ class QuizService:
             "timeTaken": answer_request.timeTaken,
         }
 
-        self.repository.save_answer(session_id,answer)
-        return {**answer,"score": score}
+        self.repository.save_answer(
+            session_id,
+            answer,
+        )
+
+        self.repository.update_score(
+            session_id,
+            score,
+        )
+
+        return {
+            **answer,
+            "score": score,
+        }
 
     def finish_quiz(self, session_id: str):
         session = self.repository.get_session(session_id)
@@ -79,12 +92,22 @@ class QuizService:
                 detail="Session not found",
             )
 
+        if session["status"] == "COMPLETED":
+            raise HTTPException(
+                status_code=400,
+                detail="Quiz already completed",
+            )
+
         finished_at = datetime.now(UTC)
 
         started_at = datetime.fromisoformat(session["startedAt"])
 
         duration = (finished_at - started_at).total_seconds()
 
-        return self.repository.finish_session(session_id,finished_at.isoformat(),duration)
+        return self.repository.finish_session(
+                session_id,
+                finished_at.isoformat(),
+                duration,
+            )
 
     
