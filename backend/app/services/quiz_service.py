@@ -51,6 +51,15 @@ class QuizService:
 
         is_correct = (answer_request.selectedOption == correct_option)
 
+        session = self.repository.get_session(session_id)
+
+        score = session["score"]
+
+        if is_correct:
+            score += 10
+
+        self.repository.update_score(session_id,score)
+
         answer = {
             "questionId": answer_request.questionId,
             "selectedOption": answer_request.selectedOption,
@@ -58,8 +67,5 @@ class QuizService:
             "timeTaken": answer_request.timeTaken,
         }
 
-        self.repository.save_answer(
-            session_id,
-            answer,
-        )
+        self.repository.save_answer(session_id,answer)
         return answer

@@ -29,3 +29,18 @@ class QuizRepository:
                 }
             }
         )
+
+    def update_score(self, session_id: str, score: int):
+        db.quiz_sessions.update_one(
+            {"sessionId": session_id},
+            {
+                "$set": {
+                    "score": score
+                }
+            }
+        )
+
+    def get_session(self, session_id: str):
+        return db.quiz_sessions.find_one(
+            {"sessionId": session_id}
+        )
