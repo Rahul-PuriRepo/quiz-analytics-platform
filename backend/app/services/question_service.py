@@ -1,4 +1,5 @@
 from app.repositories.question_repository import QuestionRepository
+from fastapi import HTTPException
 
 
 class QuestionService:
@@ -12,3 +13,15 @@ class QuestionService:
             question.pop("correctOption", None)
 
         return questions
+
+    def get_question_by_id(self, question_id: int):
+        question = self.repository.get_question_by_id(question_id)
+        if question is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Question not found",
+            )
+
+        question.pop("correctOption", None)
+
+        return question

@@ -12,3 +12,9 @@ class QuestionRepository:
                 {"_id": 0}
             )
         )
+
+    def get_question_by_id(self, question_id: int):
+        return self.collection.find_one(
+            {"questionId": question_id},
+            {"_id": 0},
+        )
