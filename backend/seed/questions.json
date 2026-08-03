@@ -1,0 +1,98 @@
+[
+  {
+    "questionId": 1,
+    "subject": "React",
+    "chapter": "Hooks",
+    "difficulty": "Easy",
+    "question": "Which hook is used to manage component state?",
+    "options": [
+      "useState",
+      "useMemo",
+      "useEffect",
+      "useCallback"
+    ],
+    "correctOption": 0,
+    "expectedTime": 20,
+    "bloomLevel": "Remember",
+    "tags": [
+      "React",
+      "Hooks"
+    ]
+  },
+  {
+    "questionId": 2,
+    "subject": "JavaScript",
+    "chapter": "Closures",
+    "difficulty": "Medium",
+    "question": "What is a closure?",
+    "options": [
+      "A loop",
+      "A function remembering its lexical scope",
+      "A callback",
+      "A promise"
+    ],
+    "correctOption": 1,
+    "expectedTime": 30,
+    "bloomLevel": "Understand",
+    "tags": [
+      "JavaScript"
+    ]
+  },
+  {
+    "questionId": 3,
+    "subject": "Node.js",
+    "chapter": "Event Loop",
+    "difficulty": "Medium",
+    "question": "Who manages asynchronous operations in Node.js?",
+    "options": [
+      "V8",
+      "libuv",
+      "Express",
+      "Chrome"
+    ],
+    "correctOption": 1,
+    "expectedTime": 30,
+    "bloomLevel": "Understand",
+    "tags": [
+      "Node"
+    ]
+  },
+  {
+    "questionId": 4,
+    "subject": "MongoDB",
+    "chapter": "Aggregation",
+    "difficulty": "Hard",
+    "question": "Which stage groups documents?",
+    "options": [
+      "$match",
+      "$sort",
+      "$group",
+      "$project"
+    ],
+    "correctOption": 2,
+    "expectedTime": 40,
+    "bloomLevel": "Apply",
+    "tags": [
+      "MongoDB"
+    ]
+  },
+  {
+    "questionId": 5,
+    "subject": "Git",
+    "chapter": "Version Control",
+    "difficulty": "Easy",
+    "question": "Which command uploads commits to GitHub?",
+    "options": [
+      "git push",
+      "git pull",
+      "git fetch",
+      "git clone"
+    ],
+    "correctOption": 0,
+    "expectedTime": 15,
+    "bloomLevel": "Remember",
+    "tags": [
+      "Git"
+    ]
+  }
+]
