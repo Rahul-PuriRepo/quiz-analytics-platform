@@ -68,4 +68,23 @@ class QuizService:
         }
 
         self.repository.save_answer(session_id,answer)
-        return answer
+        return {**answer,"score": score}
+
+    def finish_quiz(self, session_id: str):
+        session = self.repository.get_session(session_id)
+
+        if session is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Session not found",
+            )
+
+        finished_at = datetime.now(UTC)
+
+        started_at = datetime.fromisoformat(session["startedAt"])
+
+        duration = (finished_at - started_at).total_seconds()
+
+        return self.repository.finish_session(session_id,finished_at.isoformat(),duration)
+
+    

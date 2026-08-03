@@ -18,3 +18,7 @@ def start_quiz():
 @router.post("/{session_id}/answer")
 def submit_answer(session_id: str,answer: AnswerRequest):
     return service.submit_answer(session_id, answer)
+
+@router.post("/{session_id}/finish")
+def finish_quiz(session_id: str):
+    return service.finish_quiz(session_id)

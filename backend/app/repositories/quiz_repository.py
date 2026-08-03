@@ -14,6 +14,7 @@ class QuizRepository:
             "score": session["score"],
             "answers": session["answers"],
         }
+    
 
     def get_session(self, session_id):
         return db.quiz_sessions.find_one(
@@ -44,3 +45,28 @@ class QuizRepository:
         return db.quiz_sessions.find_one(
             {"sessionId": session_id}
         )
+
+    def finish_session(self,session_id: str,finished_at: str,duration: float,):
+        db.quiz_sessions.update_one(
+            {"sessionId": session_id},
+            {
+                "$set": {
+                    "status": "COMPLETED",
+                    "finishedAt": finished_at,
+                    "duration": duration,
+                }
+            },
+        )
+
+        session = db.quiz_sessions.find_one(
+            {"sessionId": session_id},
+            {"_id": 0},
+        )
+
+        return {
+            "sessionId": session["sessionId"],
+            "status": session["status"],
+            "score": session["score"],
+            "questionsAnswered": len(session["answers"]),
+            "duration": session["duration"],
+        }
