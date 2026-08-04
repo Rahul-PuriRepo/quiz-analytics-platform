@@ -46,7 +46,12 @@ class QuizRepository:
             {"sessionId": session_id}
         )
 
-    def finish_session(self,session_id: str,finished_at: str,duration: float,):
+    def finish_session(
+        self,
+        session_id: str,
+        finished_at: str,
+        duration: float,
+    ):
         db.quiz_sessions.update_one(
             {"sessionId": session_id},
             {
@@ -63,10 +68,4 @@ class QuizRepository:
             {"_id": 0},
         )
 
-        return {
-            "sessionId": session["sessionId"],
-            "status": session["status"],
-            "score": session["score"],
-            "questionsAnswered": len(session["answers"]),
-            "duration": session["duration"],
-        }
+        return session
