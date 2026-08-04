@@ -117,4 +117,13 @@ class QuizService:
 
         return summary
 
+    def get_summary(self, session_id: str):
+        session = self.repository.get_session(session_id)
+        if session is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Session not found",
+            )
+        return self.analytics_engine.calculate_summary(session)
+
     
