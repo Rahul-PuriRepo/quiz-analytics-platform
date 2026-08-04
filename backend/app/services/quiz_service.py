@@ -8,12 +8,14 @@ from fastapi import HTTPException
 from app.repositories.question_repository import QuestionRepository
 from app.schemas.answer_schema import AnswerRequest
 from app.config.constants import POINTS_PER_QUESTION
+from app.analytics.analytics_engine import AnalyticsEngine
 
 class QuizService:
     
     def __init__(self):
         self.repository = QuizRepository()
         self.question_repository = QuestionRepository()
+        self.analytics_engine = AnalyticsEngine()
 
     def start_quiz(self):
         session = {
@@ -104,10 +106,15 @@ class QuizService:
 
         duration = (finished_at - started_at).total_seconds()
 
-        return self.repository.finish_session(
+        session= self.repository.finish_session(
                 session_id,
                 finished_at.isoformat(),
                 duration,
             )
+        summary = self.analytics_engine.calculate_summary(
+            session
+        )
+
+        return summary
 
     

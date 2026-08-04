@@ -22,3 +22,11 @@ def submit_answer(session_id: str,answer: AnswerRequest):
 @router.post("/{session_id}/finish")
 def finish_quiz(session_id: str):
     return service.finish_quiz(session_id)
+
+@router.get("/{session_id}/analytics")
+def get_summary(
+    session_id: str,
+):
+    return service.get_summary(
+        session_id,
+    )
