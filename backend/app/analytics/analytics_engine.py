@@ -37,6 +37,7 @@ class AnalyticsEngine:
                 accuracy,
                 average_response_time,
             )
+        fatigue_score = self.calculate_fatigue_score(answers)
 
         return {
 
@@ -56,7 +57,9 @@ class AnalyticsEngine:
                 2,
             ),
 
-            "learningVelocityIndex": learning_velocity
+            "learningVelocityIndex": learning_velocity,
+
+            "fatigueScore": fatigue_score,
         }
 
     def calculate_learning_velocity(self, accuracy, average_response_time):
@@ -66,3 +69,12 @@ class AnalyticsEngine:
             velocity = 0
 
         return round(velocity, 2)
+
+    def calculate_fatigue_score(self, answers):
+        if len(answers) < 2:
+            return 0
+
+        first = answers[0]["timeTaken"]
+        last = answers[-1]["timeTaken"]
+
+        return max(0, last - first)
