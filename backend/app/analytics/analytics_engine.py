@@ -33,6 +33,11 @@ class AnalyticsEngine:
                 / total_questions
             )
 
+        learning_velocity = self.calculate_learning_velocity(
+                accuracy,
+                average_response_time,
+            )
+
         return {
 
             "score": session["score"],
@@ -50,4 +55,14 @@ class AnalyticsEngine:
                 average_response_time,
                 2,
             ),
+
+            "learningVelocityIndex": learning_velocity
         }
+
+    def calculate_learning_velocity(self, accuracy, average_response_time):
+        velocity = accuracy - (average_response_time / 2)
+
+        if velocity < 0:
+            velocity = 0
+
+        return round(velocity, 2)
