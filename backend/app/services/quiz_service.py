@@ -112,8 +112,9 @@ class QuizService:
                 duration,
             )
         summary = self.analytics_engine.calculate_summary(
-            session
-        )
+                session,
+                self.question_repository,
+            )
 
         return summary
 
@@ -124,6 +125,9 @@ class QuizService:
                 status_code=404,
                 detail="Session not found",
             )
-        return self.analytics_engine.calculate_summary(session)
+        return self.analytics_engine.calculate_summary(
+                        session,
+                        self.question_repository,
+                    )
 
     

@@ -3,6 +3,7 @@ class AnalyticsEngine:
     def calculate_summary(
         self,
         session,
+        question_repository,
     ):
 
         answers = session["answers"]
@@ -39,6 +40,11 @@ class AnalyticsEngine:
             )
         fatigue_score = self.calculate_fatigue_score(answers)
 
+        difficulty_analysis = self.calculate_difficulty_analysis(
+                    session,
+                    question_repository,
+                )
+
         return {
 
             "score": session["score"],
@@ -60,6 +66,8 @@ class AnalyticsEngine:
             "learningVelocityIndex": learning_velocity,
 
             "fatigueScore": fatigue_score,
+
+            "difficultyAnalysis": difficulty_analysis,
         }
 
     def calculate_learning_velocity(self, accuracy, average_response_time):
@@ -78,3 +86,37 @@ class AnalyticsEngine:
         last = answers[-1]["timeTaken"]
 
         return max(0, last - first)
+
+
+    def calculate_difficulty_analysis(self, session, question_repository):
+        analysis = {
+            "Easy": {
+                "attempted": 0,
+                "correct": 0,
+            },
+            "Medium": {
+                "attempted": 0,
+                "correct": 0,
+            },
+            "Hard": {
+                "attempted": 0,
+                "correct": 0,
+            },
+        }
+
+        for answer in session["answers"]:
+            question = question_repository.get_question_by_id(
+                answer["questionId"]
+            )
+
+            if question is None:
+                continue
+
+            difficulty = question["difficulty"]
+
+            analysis[difficulty]["attempted"] += 1
+
+            if answer["correct"]:
+                analysis[difficulty]["correct"] += 1
+
+        return analysis
