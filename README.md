@@ -6,26 +6,48 @@
 
 ![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-brightgreen)
 
-![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+![Status](https://img.shields.io/badge/Status-Backend%20Complete-brightgreen)
 
 Core philosophy:
 
 > Store facts. Compute insights.
 
-A production-inspired Quiz Analytics Platform built to explore scalable backend architecture, event-driven learning analytics, and modern software engineering practices using React, FastAPI, and MongoDB.
+An analytics-focused Quiz Analytics Platform built to explore scalable backend architecture, event-driven learning analytics, and modern software engineering practices using React, FastAPI, and MongoDB.
+
+---
+
+## License
+
+This project is intended for educational and portfolio purposes.
+
+---
+
+## Project Highlights
+
+- Layered backend architecture (Repository + Service pattern)
+- FastAPI REST APIs with OpenAPI/Swagger
+- MongoDB Atlas integration
+- Event-driven quiz analytics
+- Learning Velocity Index
+- Fatigue Score
+- Difficulty Analysis
+- Question Difficulty Index
 
 ---
 
 ## Table of Contents
 
-- Vision
-- Tech Stack
-- Project Structure
-- Features
-- Architecture
-- Roadmap
-- Engineering Decisions
-- Design Goal
+- [Vision](#vision)
+- [Getting Started](#getting-started)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [API Endpoints](#api-endpoints)
+- [Analytics](#analytics)
+- [Architecture Philosophy](#architecture-philosophy)
+- [Roadmap](#roadmap)
+- [Future Improvements](#future-improvements)
+- [Author](#author)
 
 
 
@@ -41,23 +63,22 @@ Rather than storing only quiz scores, this platform captures every quiz interact
 
 ```bash
 cd backend
-
 python -m venv venv
-
 venv\Scripts\activate
-
 pip install -r requirements.txt
-
 uvicorn main:app --reload
+```
 
 ---
 
 ## Tech Stack
 
+
 | Layer           | Technology        |
 | --------------- | ----------------- |
 | Frontend        | React + Vite      |
 | Backend         | FastAPI + Python  |
+| Validation      | Pydantic          |
 | Database        | MongoDB Atlas     |
 | Documentation   | OpenAPI + Swagger |
 | Version Control | Git + GitHub      |
@@ -116,9 +137,17 @@ This platform captures every meaningful learning event, allowing richer analytic
 
 ✅ Swagger Documentation
 
-🚧 Learning Velocity Analytics
+✅ Learning Velocity Index
 
-🚧 Fatigue Detection
+✅ Fatigue Detection
+
+✅ Difficulty Analysis
+
+✅ Question Difficulty Index
+
+🚧 React Dashboard
+
+🚧 Deployment
 
 🚧 Adaptive Recommendations
 
@@ -134,10 +163,94 @@ This platform captures every meaningful learning event, allowing richer analytic
 - [x] MongoDB Connection
 - [x] Repository Layer
 - [x] Service Layer
-- [ ] Quiz Engine
-- [ ] Analytics Engine
+- [x] Quiz Engine
+- [x] Analytics Engine
 - [ ] React Integration
 - [ ] Deployment
+
+---
+
+## API Endpoints
+
+### Quiz
+
+POST /quiz/start
+
+POST /quiz/{session_id}/answer
+
+POST /quiz/{session_id}/finish
+
+GET /quiz/{session_id}/analytics
+
+```json
+{
+  "score": 50,
+  "questionsAnswered": 5,
+  "correctAnswers": 5,
+  "accuracy": 100,
+  "averageResponseTime": 23.2,
+  "learningVelocityIndex": 88.4,
+  "fatigueScore": 0,
+  "difficultyAnalysis": {
+    "Easy": {
+      "attempted": 2,
+      "correct": 2
+    },
+    "Medium": {
+      "attempted": 2,
+      "correct": 2
+    },
+    "Hard": {
+      "attempted": 1,
+      "correct": 1
+    }
+  }
+}
+```
+
+GET /quiz/analytics/question-difficulty
+
+```json
+[
+  {
+    "questionId": 1,
+    "attempts": 5,
+    "accuracy": 60,
+    "averageResponseTime": 14.4,
+    "difficultyScore": 40
+  }
+]
+```
+
+### Questions
+
+GET /questions
+
+GET /questions/{question_id}
+
+### Health
+
+GET /
+
+---
+
+## Analytics
+
+The backend derives analytics from stored quiz events instead of relying solely on final scores. Current metrics include:
+
+- Quiz Accuracy
+- Average Response Time
+- Learning Velocity Index
+- Fatigue Score
+- Difficulty Analysis
+- Question Difficulty Index
+
+---
+
+## Database Collections
+
+- questions
+- quiz_sessions
 
 ---
 
@@ -173,29 +286,24 @@ Every layer owns exactly one responsibility.
 
 ## Status
 
-🚧 Currently under active development.
+✅ Backend complete
+
+🚧 React dashboard and deployment are planned next.
 
 
 ## Roadmap
 
 - ✅ Foundation
-
-- 🚧 Data Layer
-
-- ⏳ Quiz Engine
-
-- ⏳ Analytics Engine
-
-- ⏳ Dashboard
-
-- ⏳ Deployment
+- ✅ Data Layer
+- ✅ Quiz Engine
+- ✅ Analytics Engine
+- 🚧 React Dashboard
+- 🚧 Deployment
 
 ## Future Improvements
 
 - Adaptive quizzes
 - AI-generated question recommendations
-- Learning Velocity Index
-- Fatigue Detection
 - Instructor Dashboard
 - Team Analytics
 
@@ -211,43 +319,33 @@ The project has reached its first complete vertical slice:
 
 Current Vertical Slice
 
+```text
 FastAPI
-
-↓
-
+   ↓
+Repository Layer
+   ↓
+Service Layer
+   ↓
 MongoDB Atlas
-
-↓
-
-Health Check Endpoint
-
-↓
-
-Swagger
+   ↓
+Swagger Verification
+```
 
 ## Example Workflow
 
+```text
 User Starts Quiz
-
-↓
-
+      ↓
 Questions Loaded
-
-↓
-
+      ↓
 Answers Submitted
-
-↓
-
+      ↓
 Events Stored
-
-↓
-
+      ↓
 Analytics Computed
-
-↓
-
+      ↓
 Insights Generated
+```
 
 ## Engineering Decisions
 
@@ -293,8 +391,6 @@ One Beautiful Commit.
 
 One Beautiful Feature.
 
-Until the Reviewer Stops Scrolling.
-
 ## Design Goal
 
 This project is intentionally being developed one complete vertical slice at a time.
@@ -306,3 +402,10 @@ Every completed feature is expected to include:
 - Documentation
 - Swagger verification
 - Git history
+
+## Author
+
+Rahul Puri
+
+- GitHub: <https://github.com/Rahul-PuriRepo>
+- Repository: <https://github.com/Rahul-PuriRepo/quiz-analytics-platform>
