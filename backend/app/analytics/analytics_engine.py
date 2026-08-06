@@ -120,3 +120,53 @@ class AnalyticsEngine:
                 analysis[difficulty]["correct"] += 1
 
         return analysis
+
+    def calculate_question_difficulty_index(
+            self,
+            sessions,
+            question_repository,
+        ):
+        stats = {}
+        for session in sessions:
+            for answer in session["answers"]:
+
+                question = question_repository.get_question_by_id(
+                            answer["questionId"]
+                        )
+
+                if question is None:
+                    continue
+
+                question_id = answer["questionId"]
+
+                if question_id not in stats:
+                    stats[question_id] = {
+                        "questionId": question_id,
+                        "attempts": 0,
+                        "correct": 0,
+                        "totalTime": 0,
+                    }
+
+                # These lines MUST be inside the answer loop
+                stats[question_id]["attempts"] += 1
+                stats[question_id]["totalTime"] += answer["timeTaken"]
+
+                if answer["correct"]:
+                    stats[question_id]["correct"] += 1
+        result = []
+        for question in stats.values():
+            accuracy = (question["correct"]/question["attempts"]) * 100
+            average_time = (question["totalTime"]/question["attempts"])
+            difficulty_score = 100 - accuracy
+            result.append({
+                    "questionId": question["questionId"],
+                    "attempts": question["attempts"],
+                    "accuracy": round(accuracy,2),
+                    "averageResponseTime": round(average_time,2,),
+                    "difficultyScore": round(difficulty_score,2,),
+                })
+        result.sort(
+                key=lambda question: question["difficultyScore"],
+                reverse=True,
+                )
+        return result

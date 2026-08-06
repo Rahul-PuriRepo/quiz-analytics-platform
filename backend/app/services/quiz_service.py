@@ -118,6 +118,14 @@ class QuizService:
 
         return summary
 
+    def get_question_difficulty_index(self):
+        sessions = self.repository.get_all_sessions()
+        return self.analytics_engine.calculate_question_difficulty_index(
+                                sessions,
+                                self.question_repository,
+                            )
+
+
     def get_summary(self, session_id: str):
         session = self.repository.get_session(session_id)
         if session is None:

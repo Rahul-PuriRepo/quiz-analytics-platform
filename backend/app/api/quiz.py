@@ -30,3 +30,7 @@ def get_summary(
     return service.get_summary(
         session_id,
     )
+
+@router.get("/analytics/question-difficulty")
+def question_difficulty():
+    return service.get_question_difficulty_index()

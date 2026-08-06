@@ -21,6 +21,14 @@ class QuizRepository:
             {"sessionId": session_id}
         )
 
+    def get_all_sessions(self):
+        return list(
+                db.quiz_sessions.find(
+                {},
+                {"_id": 0},
+            )
+        )
+
     def save_answer(self, session_id, answer):
         db.quiz_sessions.update_one(
             {"sessionId": session_id},
